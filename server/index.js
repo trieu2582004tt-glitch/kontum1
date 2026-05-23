@@ -31,7 +31,6 @@ const upload = multer({
 
 const app = express();
 const port = process.env.PORT || 4000;
-const sessions = new Map();
 
 function createPasswordHash(password) {
   const salt = crypto.randomBytes(16).toString('hex');
@@ -65,14 +64,14 @@ async function authMiddleware(req, res, next) {
     return res.status(401).json({ error: 'Yêu cầu đăng nhập.' });
   }
 
-  const session = sessions.get(token);
+  const session = await db.get('SELECT user_id FROM sessions WHERE token = ?', token);
   if (!session) {
     return res.status(401).json({ error: 'Phiên đăng nhập không hợp lệ.' });
   }
 
-  const user = await db.get('SELECT id, username, is_admin FROM users WHERE id = ?', session.userId);
+  const user = await db.get('SELECT id, username, is_admin FROM users WHERE id = ?', session.user_id);
   if (!user) {
-    sessions.delete(token);
+    await db.run('DELETE FROM sessions WHERE token = ?', token);
     return res.status(401).json({ error: 'Người dùng không tồn tại.' });
   }
 
@@ -225,7 +224,7 @@ app.post('/api/auth/login', async (req, res) => {
   }
 
   const token = crypto.randomUUID();
-  sessions.set(token, { userId: user.id, username: user.username });
+  await db.run('INSERT INTO sessions (token, user_id) VALUES (?, ?)', token, user.id);
 
   res.json({
     token,
@@ -258,7 +257,7 @@ app.post('/api/auth/register', async (req, res) => {
   );
 
   const token = crypto.randomUUID();
-  sessions.set(token, { userId: result.lastID, username });
+  await db.run('INSERT INTO sessions (token, user_id) VALUES (?, ?)', token, result.lastID);
 
   res.json({
     token,
@@ -270,8 +269,8 @@ app.post('/api/auth/register', async (req, res) => {
   });
 });
 
-app.post('/api/auth/logout', authMiddleware, (req, res) => {
-  sessions.delete(req.token);
+app.post('/api/auth/logout', authMiddleware, async (req, res) => {
+  await db.run('DELETE FROM sessions WHERE token = ?', req.token);
   res.json({ ok: true });
 });
 
