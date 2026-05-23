@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "passwordHash": "183d7911db10e3197ab03859fd72aa50d96cb59fb6407cf1532629811bbcebb5f18908b98732f6d344f09273eaba137cc57d7bd88ce688d4e2fa4ee7bf9b2420",
+      "salt": "77e9c9d2df809b8b2eb291b6468a01c0",
+      "isAdmin": true
+    }
+  ],
+  "sessions": {}
+}
