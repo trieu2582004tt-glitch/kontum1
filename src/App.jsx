@@ -54,6 +54,12 @@ function App() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  // keep checkbox state synced when JS toggles menuOpen
+  useEffect(() => {
+    const el = document.getElementById('nav-toggle');
+    if (el) el.checked = menuOpen;
+  }, [menuOpen]);
+
   if (loadingUser) {
     return <div className="loading-screen">Đang kiểm tra phiên đăng nhập...</div>;
   }
@@ -210,11 +216,7 @@ function Footer() {
   );
 }
 
-// keep checkbox state synced when JS toggles menuOpen
-useEffect(() => {
-  const el = document.getElementById('nav-toggle');
-  if (el) el.checked = menuOpen;
-}, [menuOpen]);
+
 
 function RequireAdmin({ user, children }) {
   if (!user) {
