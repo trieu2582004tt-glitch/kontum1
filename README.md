@@ -44,3 +44,6 @@ npm run dev
 
 - `src/` - React frontend
 - `server/` - Express + SQLite backend
+
+<!-- Redeploy trigger -->
+<!-- redeploy: 2026-05-23T08:38:00Z -->
