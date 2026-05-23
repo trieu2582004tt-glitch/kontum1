@@ -60,7 +60,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* Mobile Nav Overlay */}
+      {/* Mobile Nav Overlay (JS-controlled) */}
       {menuOpen && (
         <div
           className="nav-mobile-overlay open"
@@ -80,19 +80,46 @@ function App() {
           </Link>
         </div>
 
-        {/* Hamburger Button – chỉ hiện trên mobile */}
-        <button
+        {/* CSS fallback toggle (hidden checkbox) */}
+        <input
+          id="nav-toggle"
+          className="nav-toggle"
+          type="checkbox"
+          aria-hidden="true"
+          onChange={(e) => setMenuOpen(e.target.checked)}
+        />
+
+        {/* Hamburger (label tied to checkbox for CSS-only fallback). Keep JS handlers for richer environments. */}
+        <label
+          htmlFor="nav-toggle"
+          role="button"
+          tabIndex={0}
           className={`nav-hamburger ${menuOpen ? 'open' : ''}`}
-          onClick={() => setMenuOpen(!menuOpen)}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            console.log('hamburger pointerdown');
+            setMenuOpen((v) => !v);
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log('hamburger clicked (click)');
+            setMenuOpen((v) => !v);
+          }}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            console.log('hamburger touched (touchstart)');
+            setMenuOpen((v) => !v);
+          }}
           aria-label={menuOpen ? 'Đóng menu' : 'Mở menu điều hướng'}
           aria-expanded={menuOpen}
         >
+          <span className="sr-only">{menuOpen ? 'Đóng menu' : 'Mở menu'}</span>
           <span></span>
           <span></span>
           <span></span>
-        </button>
+        </label>
 
-        <nav className={`site-nav ${menuOpen ? 'open' : ''}`}>
+        <nav id="site-nav" className={`site-nav ${menuOpen ? 'open' : ''}`}>
           <NavLink to="/" end onClick={closeMenu}>Trang chủ</NavLink>
           <NavLink to="/confessions" onClick={closeMenu}>Confessions</NavLink>
           <NavLink to="/attractions" onClick={closeMenu}>Địa điểm vi vu</NavLink>
@@ -182,6 +209,12 @@ function Footer() {
     </footer>
   );
 }
+
+// keep checkbox state synced when JS toggles menuOpen
+useEffect(() => {
+  const el = document.getElementById('nav-toggle');
+  if (el) el.checked = menuOpen;
+}, [menuOpen]);
 
 function RequireAdmin({ user, children }) {
   if (!user) {

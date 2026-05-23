@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://your-site.vercel.app/</loc>
+    <loc>https://kontum1.vercel.app/</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://your-site.vercel.app/explore</loc>
+    <loc>https://kontum1.vercel.app/explore</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-site.vercel.app/attractions</loc>
+    <loc>https://kontum1.vercel.app/attractions</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-site.vercel.app/accommodation</loc>
+    <loc>https://kontum1.vercel.app/accommodation</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://your-site.vercel.app/confessions</loc>
+    <loc>https://kontum1.vercel.app/confessions</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

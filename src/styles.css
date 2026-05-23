@@ -3724,6 +3724,15 @@ button:active,
 /* ============================================================
    MOBILE HAMBURGER NAVIGATION
    ============================================================ */
+/* visually-hidden checkbox used as a CSS-only fallback toggle */
+.nav-toggle {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .nav-hamburger {
   display: none;
   flex-direction: column;
@@ -3740,12 +3749,22 @@ button:active,
   transition: background 0.2s, border-color 0.2s;
   z-index: 1001;
   flex-shrink: 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-hamburger {
+  /* ensure hamburger button sits above overlays and has larger hit area on mobile */
+  position: relative;
+  z-index: 10005;
+  padding: 10px;
+  width: 48px;
+  height: 48px;
 }
 .nav-hamburger:hover { background: var(--bg-warm); }
 .nav-hamburger span {
   display: block;
-  width: 20px;
-  height: 2px;
+  width: 22px;
+  height: 2.5px;
   background: var(--text-primary);
   border-radius: 2px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -3762,6 +3781,14 @@ button:active,
   z-index: 998;
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
+}
+.sr-only {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0; padding: 0; margin: -1px;
 }
 .nav-mobile-overlay.open {
   display: block;
@@ -3791,6 +3818,19 @@ button:active,
   }
   .nav-hamburger {
     display: flex;
+  }
+
+  /* CSS-only fallback: when hidden checkbox is checked, show nav */
+  #nav-toggle:checked ~ .site-nav {
+    display: flex;
+    animation: navSlideDown 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ensure label toggles are touch-friendly */
+  .nav-hamburger,
+  label[for="nav-toggle"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .site-nav {
     display: none;
